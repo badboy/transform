@@ -32,7 +32,7 @@ fn main() {
         }
         ("toml", "json") => {
             let value : yaml::Value = toml::decode_str(&data).unwrap();
-            json::to_string_pretty(&value).expect("Can't encode input as YAML")
+            json::to_string_pretty(&value).expect("Can't encode input as JSON")
         }
         ("yaml", "toml") => {
             let value : toml::Value = yaml::from_str(&data).unwrap();
@@ -40,7 +40,7 @@ fn main() {
         }
         ("yaml", "json") => {
             let value : yaml::Value = yaml::from_str(&data).unwrap();
-            json::to_string_pretty(&value).expect("Can't encode input as YAML")
+            json::to_string_pretty(&value).expect("Can't encode input as JSON")
         }
         ("json", "toml") => {
             let value : toml::Value = json::from_str(&data).unwrap();
