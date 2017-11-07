@@ -13,9 +13,9 @@ fn main() {
     let to = args.next().expect("No to given");
     let input = args.next().expect("No input given");
 
-    let mut input : Box<Read> = match &*input {
+    let mut input: Box<Read> = match &*input {
         "-" => Box::new(io::stdin()),
-        f @ _ => {
+        f => {
             let f = File::open(f).expect("Can't open file");
             Box::new(f)
         }
@@ -27,30 +27,30 @@ fn main() {
 
     let output = match (&from[..], &to[..]) {
         ("toml", "yaml") => {
-            let value : yaml::Value = toml::decode_str(&data).unwrap();
+            let value: yaml::Value = toml::decode_str(&data).unwrap();
             yaml::to_string(&value).expect("Can't encode input as YAML")
         }
         ("toml", "json") => {
-            let value : yaml::Value = toml::decode_str(&data).unwrap();
+            let value: yaml::Value = toml::decode_str(&data).unwrap();
             json::to_string_pretty(&value).expect("Can't encode input as JSON")
         }
         ("yaml", "toml") => {
-            let value : toml::Value = yaml::from_str(&data).unwrap();
+            let value: toml::Value = yaml::from_str(&data).unwrap();
             format!("{}", value)
         }
         ("yaml", "json") => {
-            let value : yaml::Value = yaml::from_str(&data).unwrap();
+            let value: yaml::Value = yaml::from_str(&data).unwrap();
             json::to_string_pretty(&value).expect("Can't encode input as JSON")
         }
         ("json", "toml") => {
-            let value : toml::Value = json::from_str(&data).unwrap();
+            let value: toml::Value = json::from_str(&data).unwrap();
             format!("{}", value)
         }
         ("json", "yaml") => {
-            let value : yaml::Value = json::from_str(&data).unwrap();
+            let value: yaml::Value = json::from_str(&data).unwrap();
             yaml::to_string(&value).expect("Can't encode input as YAML")
         }
-        a @ _ => panic!("Can't go from {} to {}", a.0, a.1),
+        other => panic!("Can't go from {} to {}", other.0, other.1),
     };
 
     println!("{}", output);
